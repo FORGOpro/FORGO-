@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "models": [
+    "deepseek-flash",
+    "deepseek-v4-pro",
+    "deepseek-chat",
+    "deepseek-reasoner",
+    "glm-4-flash",
+    "glm-4-plus",
+    "glm-4-air",
+    "glm-4v-flash",
+    "glm-4v-plus",
+    "gpt-4o",
+    "gpt-4o-mini",
+    "gpt-4.1",
+    "gpt-4.1-mini",
+    "o1",
+    "o1-mini",
+    "o3-mini",
+    "claude-sonnet-4-20250514",
+    "claude-3-7-sonnet-20250219",
+    "claude-3-5-sonnet-20241022",
+    "claude-3-5-haiku-20241022",
+    "gemini-2.0-flash",
+    "gemini-2.0-flash-lite",
+    "gemini-1.5-pro",
+    "gemini-1.5-flash",
+    "qwen-max",
+    "qwen-plus",
+    "qwen-turbo",
+    "qwen-vl-max",
+    "qwen-vl-plus",
+    "moonshot-v1-8k",
+    "moonshot-v1-32k",
+    "moonshot-v1-128k",
+    "doubao-pro-32k",
+    "doubao-pro-128k",
+    "doubao-lite-32k",
+    "ernie-4.0-8k",
+    "ernie-3.5-8k",
+    "spark-max",
+    "spark-pro",
+    "abab6.5s-chat"
+  ],
+  "prompts": {
+    "assistant": "你是阿鲲，一个课表助手。学生课表：{courses}。回答要简短口语化，中文。"
+  },
+  "flags": {
+    "notesEnabled": true,
+    "voiceEnabled": true,
+    "shareEnabled": true,
+    "pomodoroEnabled": true
+  },
+  "themes": [
+    {
+      "id": "light",
+      "name": "默认"
+    },
+    {
+      "id": "dark",
+      "name": "暗夜"
+    },
+    {
+      "id": "sakura",
+      "name": "樱花"
+    },
+    {
+      "id": "forest",
+      "name": "墨绿"
+    }
+  ],
+  "petSkins": [
+    {
+      "id": "builtin",
+      "name": "默认阿鲲",
+      "base": ""
+    },
+    {
+      "id": "skinA",
+      "name": "冬日阿鲲",
+      "base": "http://akun.gorsu.ch/assets/skins/winter/"
+    },
+    {
+      "id": "skinB",
+      "name": "初夏阿鲲",
+      "base": "http://akun.gorsu.ch/assets/skins/default/"
+    }
+  ],
+  "petPool": [
+    {
+      "id": "p01",
+      "name": "待机呼吸",
+      "file": "p01.webm"
+    },
+    {
+      "id": "p02",
+      "name": "发呆碎碎念",
+      "file": "p02.webm"
+    },
+    {
+      "id": "p03",
+      "name": "对屏碎碎念",
+      "file": "p03.webm"
+    },
+    {
+      "id": "p04",
+      "name": "擦桌碎碎念",
+      "file": "p04.webm"
+    },
+    {
+      "id": "p05",
+      "name": "踱步张望",
+      "file": "p05.webm"
+    },
+    {
+      "id": "p06",
+      "name": "垂头叹气",
+      "file": "p06.webm"
+    },
+    {
+      "id": "p07",
+      "name": "忙碌点按",
+      "file": "p07.webm"
+    },
+    {
+      "id": "p08",
+      "name": "思考冒泡",
+      "file": "p08.webm"
+    },
+    {
+      "id": "p09",
+      "name": "清点归档",
+      "file": "p09.webm"
+    },
+    {
+      "id": "p10",
+      "name": "雀跃庆祝",
+      "file": "p10.webm"
+    },
+    {
+      "id": "p11",
+      "name": "东张西望",
+      "file": "p11.webm"
+    },
+    {
+      "id": "p12",
+      "name": "哈欠连天",
+      "file": "p12.webm"
+    },
+    {
+      "id": "p13",
+      "name": "伸懒腰",
+      "file": "p13.webm"
+    },
+    {
+      "id": "p14",
+      "name": "小憩",
+      "file": "p14.webm"
+    },
+    {
+      "id": "p15",
+      "name": "原地奔跑",
+      "file": "p15.webm"
+    },
+    {
+      "id": "p16",
+      "name": "漂浮踏步",
+      "file": "p16.webm"
+    },
+    {
+      "id": "p17",
+      "name": "玩小汽车",
+      "file": "p17.webm"
+    },
+    {
+      "id": "p18",
+      "name": "玩魔方",
+      "file": "p18.webm"
+    },
+    {
+      "id": "p19",
+      "name": "撸猫",
+      "file": "p19.webm"
+    },
+    {
+      "id": "p20",
+      "name": "照镜子",
+      "file": "p20.webm"
+    },
+    {
+      "id": "p21",
+      "name": "哼歌",
+      "file": "p21.webm"
+    },
+    {
+      "id": "p22",
+      "name": "摇摆舞",
+      "file": "p22.webm"
+    },
+    {
+      "id": "p23",
+      "name": "宅舞",
+      "file": "p23.webm"
+    },
+    {
+      "id": "p24",
+      "name": "吐泡泡",
+      "file": "p24.webm"
+    },
+    {
+      "id": "p25",
+      "name": "拍尾巴",
+      "file": "p25.webm"
+    },
+    {
+      "id": "p26",
+      "name": "吃零食",
+      "file": "p26.webm"
+    },
+    {
+      "id": "p27",
+      "name": "被吓一跳",
+      "file": "p27.webm"
+    },
+    {
+      "id": "p29",
+      "name": "写代码",
+      "file": "p29.webm"
+    },
+    {
+      "id": "p30",
+      "name": "深度思考",
+      "file": "p30.webm"
+    }
+  ],
+  "petPoolBase": "https://forgopro.github.io/FORGO-/assets/petpool/",
+  "v1pro": {
+    "enabled": true,
+    "variants": {
+      "lite": {
+        "name": "阿鲲V1Pro-Lite",
+        "model": "qwen2.5:1.5b-instruct",
+        "params": "1.5B",
+        "tier": "AUTO",
+        "size": "~1.0 GB"
+      },
+      "full": {
+        "name": "阿鲲V1Pro",
+        "model": "qwen2.5:3b-instruct",
+        "params": "3B",
+        "tier": "High",
+        "size": "~1.9 GB"
+      }
+    },
+    "endpoint": "http://127.0.0.1:11434/v1/chat/completions",
+    "downloadBase": "https://forgopro.github.io/FORGO-/models/"
+  }
+}
