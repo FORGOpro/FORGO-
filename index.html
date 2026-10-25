@@ -15,25 +15,80 @@
   --grad:linear-gradient(135deg,#6C7CF5,#9B6CF5);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;background:#08090D}
 body{
-  background:var(--bg);color:var(--txt);
+  background:transparent;color:var(--txt);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
   line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-body::before{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-    radial-gradient(900px 500px at 18% -8%,rgba(108,124,245,.16),transparent 62%),
-    radial-gradient(760px 440px at 84% 6%,rgba(155,108,245,.13),transparent 62%),
-    radial-gradient(700px 600px at 50% 110%,rgba(108,124,245,.07),transparent 60%);
+/* 动态背景：慢慢漂移的光斑 + 细网格 */
+.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:#08090D}
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(80px);
+  will-change:transform,opacity;
+}
+.orb.a{
+  width:920px;height:920px;left:-16%;top:-32%;
+  background:radial-gradient(circle,rgba(108,124,245,.5),transparent 68%);
+  animation:driftA 26s ease-in-out infinite;
+}
+.orb.b{
+  width:780px;height:780px;right:-14%;top:-16%;
+  background:radial-gradient(circle,rgba(155,108,245,.42),transparent 68%);
+  animation:driftB 32s ease-in-out infinite;
+}
+.orb.c{
+  width:640px;height:640px;left:26%;bottom:-24%;
+  background:radial-gradient(circle,rgba(77,208,225,.2),transparent 70%);
+  animation:driftC 38s ease-in-out infinite;
+}
+.orb.d{
+  width:520px;height:520px;right:12%;bottom:-10%;
+  background:radial-gradient(circle,rgba(108,124,245,.22),transparent 70%);
+  animation:driftD 29s ease-in-out infinite;
+}
+.gridfx{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 62% at 50% 0%,#000 12%,transparent 74%);
+  mask-image:radial-gradient(ellipse 90% 62% at 50% 0%,#000 12%,transparent 74%);
+  opacity:.5;
+}
+.grain{
+  position:absolute;inset:0;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@keyframes driftA{
+  0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.95}
+  33%{transform:translate3d(7%,5%,0) scale(1.12);opacity:.75}
+  66%{transform:translate3d(-4%,9%,0) scale(.95);opacity:1}
+}
+@keyframes driftB{
+  0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.85}
+  40%{transform:translate3d(-8%,7%,0) scale(1.1);opacity:1}
+  70%{transform:translate3d(5%,-5%,0) scale(.92);opacity:.7}
+}
+@keyframes driftC{
+  0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.6}
+  50%{transform:translate3d(10%,-12%,0) scale(1.16);opacity:.95}
+}
+@keyframes driftD{
+  0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.7}
+  45%{transform:translate3d(-12%,-8%,0) scale(1.08);opacity:.95}
+}
+@media(prefers-reduced-motion:reduce){
+  .orb{animation:none!important}
 }
 .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
 
 /* 顶栏 */
 .nav{
   position:sticky;top:0;z-index:80;backdrop-filter:blur(18px) saturate(180%);
-  background:rgba(8,9,13,.72);border-bottom:1px solid var(--line);
+  background:rgba(8,9,13,.62);border-bottom:1px solid var(--line);
 }
 .nav-in{max-width:1180px;margin:0 auto;padding:0 22px;height:60px;display:flex;align-items:center;gap:14px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:.2px}
@@ -263,6 +318,14 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 </style>
 </head>
 <body>
+<div class="bgfx">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+  <div class="orb d"></div>
+  <div class="gridfx"></div>
+  <div class="grain"></div>
+</div>
 
 <div class="madeby" id="madeBy">本项目全程由 DeepSeek-V4.1-Flash 制作</div>
 
