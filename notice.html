@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>更新公告 · aKun Lite</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>">
+<style>
+:root{
+  --bg:#08090D; --card:rgba(255,255,255,.035); --line:rgba(255,255,255,.08);
+  --txt:#EDEFF5; --dim:#8B92A6; --dim2:#5D6478;
+  --brand:#6C7CF5; --brand2:#9B6CF5; --ok:#3DDc84;
+  --grad:linear-gradient(135deg,#6C7CF5,#9B6CF5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:#08090D;scroll-behavior:smooth}
+body{
+  background:transparent;color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:#08090D}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform,opacity}
+.orb.a{width:820px;height:820px;left:-14%;top:-36%;background:radial-gradient(circle,rgba(108,124,245,.3),transparent 70%);animation:driftA 28s ease-in-out infinite}
+.orb.b{width:680px;height:680px;right:-12%;top:-20%;background:radial-gradient(circle,rgba(155,108,245,.24),transparent 70%);animation:driftB 34s ease-in-out infinite}
+@keyframes driftA{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.9}50%{transform:translate3d(6%,6%,0) scale(1.1);opacity:.7}}
+@keyframes driftB{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.8}45%{transform:translate3d(-7%,8%,0) scale(1.08);opacity:1}}
+
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px 60px}
+
+.top{display:flex;align-items:center;gap:12px;margin-bottom:30px}
+.back{
+  width:38px;height:38px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card);color:var(--txt);font-size:17px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;text-decoration:none;
+  font-family:inherit;transition:.2s;flex:0 0 auto;
+}
+.back:hover{background:rgba(255,255,255,.07)}
+.top h1{font-size:15px;font-weight:600;color:var(--dim)}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:32px 30px;backdrop-filter:blur(12px);
+  box-shadow:0 24px 60px -24px rgba(0,0,0,.6);
+}
+
+.hd{margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:999px;
+  border:1px solid rgba(61,220,132,.28);background:rgba(61,220,132,.09);
+  font-size:11.5px;color:#A8ECBF;margin-bottom:16px;
+}
+.badge .led{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.hd h2{
+  font-size:clamp(26px,4.6vw,36px);font-weight:750;letter-spacing:-.8px;
+  background:linear-gradient(180deg,#fff 30%,#A9B0C8 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:10px;
+}
+.hd .meta{font-size:12.5px;color:var(--dim2);display:flex;gap:16px;flex-wrap:wrap}
+.hd .meta b{color:var(--dim);font-weight:500}
+
+.body{font-size:14px;line-height:2;color:#C3C9D8}
+.line{display:flex;gap:11px;padding:7px 0;align-items:flex-start}
+.line .dot{width:5px;height:5px;border-radius:50%;background:var(--brand);margin-top:11px;flex:0 0 auto;opacity:.8}
+.line.plain{display:block;color:var(--dim);padding:4px 0}
+
+.foot{margin-top:28px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--dim2);text-align:center;line-height:1.9}
+.foot a{color:#9EA8FF;text-decoration:none}
+.foot a:hover{text-decoration:underline}
+
+.loading{text-align:center;padding:60px 0;color:var(--dim2);font-size:13.5px}
+.err{color:#FF8A8A;font-size:13.5px;text-align:center;padding:30px 0}
+
+@media(max-width:600px){
+  .wrap{padding:18px 14px 44px}
+  .card{padding:24px 20px;border-radius:16px}
+  .hd h2{font-size:26px}
+}
+@media(prefers-reduced-motion:reduce){.orb{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bgfx">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+</div>
+
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="./" aria-label="返回">←</a>
+    <h1>更新公告</h1>
+  </div>
+
+  <div class="card" id="card">
+    <div class="loading">正在读取…</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var card = document.getElementById('card');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function fmt(ms) {
+    if (!ms) return '-';
+    var d = new Date(Number(ms));
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+           ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  fetch('notice.json?t=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d) throw new Error('empty');
+      var lines = String(d.body || '').split('\n').filter(function (x) { return x.trim(); });
+      var html = lines.map(function (x) {
+        var t = x.trim();
+        var isBullet = /^[·•\-\*]/.test(t);
+        var text = isBullet ? t.replace(/^[·•\-\*]\s*/, '') : t;
+        return isBullet
+          ? '<div class="line"><span class="dot"></span><span>' + esc(text) + '</span></div>'
+          : '<div class="line plain">' + esc(text) + '</div>';
+      }).join('');
+
+      card.innerHTML =
+        '<div class="hd">' +
+          '<div class="badge"><i class="led"></i>' + (d.force ? '\u5f3a\u5236\u66f4\u65b0' : '\u6b63\u5f0f\u7248') + '</div>' +
+          '<h2>' + esc(d.title || ('v' + d.latest)) + '</h2>' +
+          '<div class="meta">' +
+            '<span>\u7248\u672c <b>v' + esc(d.latest || '-') + '</b></span>' +
+            '<span>\u53d1\u5e03 <b>' + fmt(d.updatedAt) + '</b></span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="body">' + html + '</div>' +
+        '<div class="foot">' +
+          '\u5237\u65b0\u80fd\u770b\u5230\u6700\u65b0\u516c\u544a \u00b7 ' +
+          '<a href="./">\u8fd4\u56de\u5b98\u7f51</a>' +
+        '</div>';
+      document.title = (d.title || 'v' + d.latest) + ' · aKun Lite';
+    })
+    .catch(function () {
+      card.innerHTML =
+        '<div class="err">\u516c\u544a\u8bfb\u53d6\u5931\u8d25<br>' +
+        '<a href="./" style="color:#9EA8FF;text-decoration:none">\u8fd4\u56de\u5b98\u7f51</a></div>';
+    });
+})();
+</script>
+</body>
+</html>
