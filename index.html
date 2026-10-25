@@ -226,20 +226,16 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
 /* 致谢 */
 .dl-note{text-align:center;font-size:12px;color:var(--dim2);margin-top:16px}
-.credit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:860px;margin:0 auto}
-.credit-card{display:flex;gap:15px;padding:22px 20px;border-radius:16px;background:var(--card);
-  border:1px solid var(--line);text-decoration:none;color:inherit;transition:.25s}
-.credit-card:hover{background:var(--card-hover);border-color:rgba(108,124,245,.32);transform:translateY(-3px)}
-.cr-ico{width:40px;height:40px;border-radius:11px;background:rgba(108,124,245,.13);
-  display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto}
-.cr-main h3{font-size:14.5px;font-weight:650;margin-bottom:2px}
-.cr-by{font-size:11.5px;color:#9EA8FF;margin-bottom:8px;font-family:ui-monospace,monospace}
-.cr-main p{font-size:12.5px;color:var(--dim);line-height:1.75}
-.credit-note{text-align:center;font-size:12px;color:var(--dim2);margin-top:18px}
-@media(max-width:760px){
-  .credit-grid{grid-template-columns:1fr}
-  .credit-card{padding:18px}
+#credit{padding:10px 0 46px}
+.credit-line{
+  max-width:820px;margin:0 auto;text-align:center;
+  font-size:12.5px;line-height:2;color:var(--dim2);
 }
+.credit-line a{
+  color:#9EA8FF;text-decoration:none;font-family:ui-monospace,monospace;
+  border-bottom:1px dashed rgba(158,168,255,.35);transition:.2s;padding-bottom:1px;
+}
+.credit-line a:hover{color:#C3CAFF;border-bottom-color:rgba(195,202,255,.7)}
 </style>
 </head>
 <body>
@@ -362,30 +358,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
 <section class="sec" id="credit">
   <div class="wrap">
-    <div class="sec-h">
-      <h2>致谢</h2>
-      <p>Pro 模式桌宠不是我从零写的</p>
-    </div>
-    <div class="credit-grid">
-      <a class="credit-card" href="https://github.com/Tony-Chen-Stark/dsh-pet-android" target="_blank" rel="noopener">
-        <div class="cr-ico">📦</div>
-        <div class="cr-main">
-          <h3>dsh-pet-android</h3>
-          <div class="cr-by">Tony-Chen-Stark</div>
-          <p>桌宠的安卓实现：悬浮窗、拖拽甩抛、贴边賜藏、动画链调度。<br>Pro 模式直接搬的它的实现。</p>
-        </div>
-      </a>
-      <a class="credit-card" href="https://github.com/PC2005-cloud/dsh-pet" target="_blank" rel="noopener">
-        <div class="cr-ico">🐟</div>
-        <div class="cr-main">
-          <h3>dsh-pet</h3>
-          <div class="cr-by">PC2005-cloud</div>
-          <p>原始桌宠插件（106 组透明动画、台词、动画表）。<br>动画素材与设定都来自它。</p>
-        </div>
-      </a>
-    </div>
-    <p class="credit-note">
-      两个项目都是 MIT 开源。桌宠能在手机上跑起来，多亏他们。
+    <p class="credit-line">
+      注：本项目 Pro 桌宠功能使用
+      <a href="https://github.com/Tony-Chen-Stark/dsh-pet-android" target="_blank" rel="noopener">dsh-pet-android</a>
+      和
+      <a href="https://github.com/PC2005-cloud/dsh-pet" target="_blank" rel="noopener">dsh-pet</a>
+      的开源项目制作，特此感谢
     </p>
   </div>
 </section>
