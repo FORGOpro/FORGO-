@@ -368,7 +368,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
 <header class="hero">
   <div class="wrap">
-    <div class="tag"><i class="led"></i>v1.6.3.6 · 已发布</div>
+    <div class="tag"><i class="led"></i><span id="heroVer">v1.6.4.4</span> · 已发布</div>
     <h1>课表、录音、桌宠<br>一个就够了</h1>
     <p class="sub">面向移动端的轻量课表助手，集成课表管理、录音转写、全局桌宠与本地 AI 能力。支持免账号使用，登录后可跨设备同步。</p>
     <div class="cta">
@@ -378,7 +378,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
       </a>
       <a class="btn btn-g" href="#log">更新日志</a>
     </div>
-    <div class="meta">APK <b>102 MB</b> · Android <b>9.0</b> 及以上 · <b>免费</b></div>
+    <div class="meta">APK <b id="apkSize">111 MB</b> · Android <b>9.0</b> 及以上 · <b>免费</b></div>
   </div>
 </header>
 
@@ -438,9 +438,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
       <p>安装包由 GitHub Releases 托管，不依赖本项目服务可用性</p>
     </div>
     <div class="dl">
-      <a class="dl-row" href="https://github.com/FORGOpro/FORGO-/releases/latest">
+      <a class="dl-row" id="dlRow" href="https://github.com/FORGOpro/FORGO-/releases/latest">
         <span class="n">↓</span>
-        <span class="t"><b>GitHub Release</b><span>v1.6.3.6 · 102 MB · 长期可用</span></span>
+        <span class="t"><b>GitHub Release</b><span><span id="dlVer">v1.6.4.4</span> · <span id="dlSize">111 MB</span> · 长期可用</span></span>
         <span class="a">下载</span>
       </a>
     </div>
@@ -455,8 +455,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
       <p>最近版本的变更记录</p>
     </div>
     <div class="log">
-      <h4><span class="ver">1.6.3.6</span>最新</h4>
-      <ul>
+      <h4><span class="ver" id="logVer">1.6.4.4</span>最新</h4>
+      <ul id="logList">
         <li>修复一个导致整页按钮失效的错误（分享码、版本日志、检查更新等全部恢复）</li>
         <li>下载器重写：原生分片并发 + 断点续传，内存占用从 136MB 降到 64KB</li>
         <li>下载完整性校验，不再出现装到一半失败</li>
@@ -541,6 +541,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   })();
 
   function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
 
 function setState(online) {
     var pill = $('statePill'), txt = $('stateTxt');
@@ -576,15 +581,45 @@ function setState(online) {
       .then(function (d) {
         var fresh = !!(d && d.at && (Date.now() - Number(d.at) < STALE_MS));
         setState(fresh);
-        if (d && d.latest) $('sVer').textContent = d.latest;
+        if (d && d.latest) {
+          $('sVer').textContent = d.latest;
+          var hv = document.getElementById('heroVer');
+          if (hv) hv.textContent = 'v' + d.latest;
+        }
+        if (d && d.apkSize) {
+          var mb = Math.round(Number(d.apkSize) / 1024 / 1024);
+          var as = document.getElementById('apkSize');
+          if (as && mb > 0) as.textContent = mb + ' MB';
+          var ds = document.getElementById('dlSize');
+          if (ds && mb > 0) ds.textContent = mb + ' MB';
+          var dv = document.getElementById('dlVer');
+          if (dv) dv.textContent = 'v' + d.latest;
+        }
       })
       .catch(function () { setState(false); });
   }
 
-  // 版本号从公告取（避免手写过期）
-  fetch('notice.json', { cache: 'no-store' })
+  // 版本号 + 更新日志都从 notice.json 取，以后发版不用手改页面
+  fetch('notice.json?t=' + Date.now(), { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { if (d && d.latest) $('sVer').textContent = d.latest; })
+    .then(function (d) {
+      if (!d || !d.latest) return;
+      $('sVer').textContent = d.latest;
+      var hv = document.getElementById('heroVer');
+      if (hv) hv.textContent = 'v' + d.latest;
+      var lv = document.getElementById('logVer');
+      if (lv) lv.textContent = d.latest;
+      var box = document.getElementById('logList');
+      if (box && d.body) {
+        var items = String(d.body).split('\n').filter(function (x) { return x.trim(); });
+        box.innerHTML = items.map(function (x) {
+          var t = x.trim();
+          var isB = /^[·•\-\*]/.test(t);
+          var txt = isB ? t.replace(/^[·•\-\*]\s*/, '') : t;
+          return '<li' + (isB ? '' : ' style="color:var(--dim2)"') + '>' + esc(txt) + '</li>';
+        }).join('');
+      }
+    })
     .catch(function () {});
 
   var d = new Date();
