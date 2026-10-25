@@ -30,33 +30,43 @@ body{
 }
 .orb.a{
   width:920px;height:920px;left:-16%;top:-32%;
-  background:radial-gradient(circle,rgba(108,124,245,.5),transparent 68%);
+  background:radial-gradient(circle,rgba(108,124,245,.34),transparent 70%);
   animation:driftA 26s ease-in-out infinite;
 }
 .orb.b{
   width:780px;height:780px;right:-14%;top:-16%;
-  background:radial-gradient(circle,rgba(155,108,245,.42),transparent 68%);
+  background:radial-gradient(circle,rgba(155,108,245,.28),transparent 70%);
   animation:driftB 32s ease-in-out infinite;
 }
 .orb.c{
   width:640px;height:640px;left:26%;bottom:-24%;
-  background:radial-gradient(circle,rgba(77,208,225,.2),transparent 70%);
+  background:radial-gradient(circle,rgba(77,208,225,.14),transparent 72%);
   animation:driftC 38s ease-in-out infinite;
 }
 .orb.d{
   width:520px;height:520px;right:12%;bottom:-10%;
-  background:radial-gradient(circle,rgba(108,124,245,.22),transparent 70%);
+  background:radial-gradient(circle,rgba(108,124,245,.16),transparent 72%);
   animation:driftD 29s ease-in-out infinite;
+}
+.beam{
+  position:absolute;left:50%;top:-40%;width:1200px;height:900px;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 38%,rgba(140,150,255,.16),rgba(140,150,255,.05) 42%,transparent 66%);
+  animation:beamPulse 14s ease-in-out infinite;
+}
+@keyframes beamPulse{
+  0%,100%{opacity:.85;transform:translateX(-50%) scale(1)}
+  50%{opacity:1;transform:translateX(-50%) scale(1.06)}
 }
 .gridfx{
   position:absolute;inset:0;
   background-image:
     linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
     linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-  background-size:64px 64px;
+  background-size:72px 72px;
   -webkit-mask-image:radial-gradient(ellipse 90% 62% at 50% 0%,#000 12%,transparent 74%);
   mask-image:radial-gradient(ellipse 90% 62% at 50% 0%,#000 12%,transparent 74%);
-  opacity:.5;
+  opacity:.34;
 }
 .grain{
   position:absolute;inset:0;opacity:.028;
@@ -319,6 +329,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 </head>
 <body>
 <div class="bgfx">
+  <div class="beam"></div>
   <div class="orb a"></div>
   <div class="orb b"></div>
   <div class="orb c"></div>
