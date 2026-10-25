@@ -37,6 +37,7 @@ body::before{
 }
 .nav-in{max-width:1180px;margin:0 auto;padding:0 22px;height:60px;display:flex;align-items:center;gap:14px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:.2px}
+.logo .appicon{width:27px;height:27px;border-radius:8px;display:block;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 .logo .dot{width:26px;height:26px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:14px}
 .logo em{font-style:normal;color:var(--dim);font-weight:400;font-size:12px;margin-left:2px}
 .nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
@@ -177,6 +178,50 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   .f-in{flex-direction:column;text-align:center;gap:10px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* 反馈与打赏 */
+.fb-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;max-width:900px;margin:0 auto}
+.fb-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 24px}
+.fb-card h3{font-size:17px;font-weight:650;margin-bottom:7px}
+.fb-card .hint{font-size:13px;color:var(--dim2);margin-bottom:18px;line-height:1.65}
+.fb-form{display:flex;flex-direction:column;gap:10px}
+.fb-row{display:flex;gap:10px}
+.fb-form select,.fb-form input,.fb-form textarea{
+  width:100%;padding:11px 13px;border-radius:11px;border:1px solid var(--line);
+  background:rgba(255,255,255,.03);color:var(--txt);font-size:13.5px;font-family:inherit;
+  outline:none;transition:.2s;resize:vertical;
+}
+.fb-form select:focus,.fb-form input:focus,.fb-form textarea:focus{
+  border-color:rgba(108,124,245,.5);background:rgba(108,124,245,.05)
+}
+.fb-form textarea{min-height:108px;line-height:1.65}
+.fb-form select option{background:#12141B}
+.fb-sub{
+  padding:12px;border-radius:11px;border:0;background:var(--grad);color:#fff;
+  font-size:14.5px;font-weight:650;cursor:pointer;font-family:inherit;transition:.2s;
+}
+.fb-sub:hover{filter:brightness(1.08)}
+.fb-sub:disabled{opacity:.55;cursor:default}
+.fb-msg{font-size:12.5px;min-height:18px;color:var(--dim)}
+.fb-msg.ok{color:var(--ok)}
+.fb-msg.err{color:#FF8A8A}
+.pay{display:flex;align-items:center;gap:18px;margin-bottom:16px}
+.pay-qr{
+  width:118px;height:118px;border-radius:14px;flex:0 0 auto;
+  border:1px dashed rgba(255,255,255,.16);background:rgba(255,255,255,.02);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:11.5px;color:var(--dim2);line-height:1.6;
+}
+.pay-qr img{width:100%;height:100%;border-radius:13px;object-fit:cover}
+.pay-lines{font-size:13px;color:var(--dim);line-height:2}
+.pay-lines b{color:var(--txt);font-weight:600}
+.pay-lines .dim{font-size:12px;color:var(--dim2)}
+.pay-note{font-size:11.5px;color:var(--dim2);line-height:1.75;padding-top:14px;border-top:1px solid var(--line)}
+@media(max-width:760px){
+  .fb-grid{grid-template-columns:1fr}
+  .fb-card{padding:22px 20px}
+  .pay{flex-direction:column;text-align:center;gap:14px}
+}
 </style>
 </head>
 <body>
@@ -187,7 +232,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
 <nav class="nav">
   <div class="nav-in">
-    <div class="logo"><span class="dot">🐟</span>aKun Lite<em>轻量课表助手</em></div>
+    <div class="logo"><img class="appicon" src="data:image/png;base64,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" alt="">aKun Lite<em>轻量课表助手</em></div>
     <div class="nav-r">
       <span class="pill" id="statePill"><i class="led"></i><span id="stateTxt">检测中…</span></span>
       <a class="pill gh" href="https://github.com/FORGOpro/FORGO-" target="_blank" rel="noopener">GitHub</a>
@@ -199,7 +244,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   <div class="wrap">
     <div class="tag"><i class="led"></i>v1.6.3.6 · 已发布</div>
     <h1>课表、录音、桌宠<br>一个就够了</h1>
-    <p class="sub">aKun Lite 是给手机用的轻量助手：课表管理、录音转写、全局桌宠、离线 AI。没有账号，不收集数据，装完就能用。</p>
+    <p class="sub">aKun Lite 是给手机用的轻量助手：课表管理、录音转写、全局桌宠、离线 AI。不开账号也能用，开了账号能跳设备同步。</p>
     <div class="cta">
       <a class="btn btn-p" id="dlMain" href="https://github.com/FORGOpro/FORGO-/releases/download/v1.6.3.6/aku-1.6.3.6.apk">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
@@ -248,8 +293,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
       </div>
       <div class="card">
         <div class="ico">🔒</div>
-        <h3>无账号 · 不联网</h3>
-        <p>没有注册登录，所有数据存在手机本地。想删就删，没人能拿走。</p>
+        <h3>账号可选</h3>
+        <p>不注册也能用全部功能；注册后课表、笔记可以云端备份。散布式存在本地，随时可删。</p>
       </div>
       <div class="card">
         <div class="ico">⚡</div>
@@ -302,6 +347,53 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
         <li>桌宠可以滑到屏幕最顶端和最底端</li>
         <li>Pro 模式六个开关真正生效（碎碎念 / 贴边 / 音效 / 振动 / 保活 / 大小）</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="fb">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2>反馈与支持</h2>
+      <p>说点什么，或者请我喝口水</p>
+    </div>
+
+    <div class="fb-grid">
+      <div class="fb-card">
+        <h3>🐟 提个反馈</h3>
+        <p class="hint">Bug、想法、想加的功能，都行。留个联系方式方便回复。</p>
+        <div class="fb-form">
+          <div class="fb-row">
+            <select id="fbKind">
+              <option value="问题">遇到问题</option>
+              <option value="功能建议">功能建议</option>
+              <option value="界面">界面 / 体验</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <textarea id="fbText" placeholder="写下你想说的…" maxlength="1000"></textarea>
+          <input id="fbContact" placeholder="联系方式（选填：QQ / 微信 / 邮箱）" maxlength="120">
+          <button class="fb-sub" id="fbSend">发送反馈</button>
+          <div class="fb-msg" id="fbMsg"></div>
+        </div>
+      </div>
+
+      <div class="fb-card">
+        <h3>☕ 请我喝口水</h3>
+        <p class="hint">做这个没赚过钱，纯靠兴趣。想支持的话扫下面，多少都行。</p>
+        <div class="pay">
+          <div class="pay-qr" id="payQr">
+            <span>二维码<br><small>待上传</small></span>
+          </div>
+          <div class="pay-lines">
+            <div><b>微信</b> / <b>支付宝</b> 扫码</div>
+            <div class="dim">不图钱，图你用得顺手</div>
+          </div>
+        </div>
+        <div class="pay-note">
+          打赏不提供额外功能，也不影响使用。不想打赏也正常，用得开心就行。
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -389,6 +481,47 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   var d = new Date();
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   $('footTime').textContent = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+
+
+  // ---------- 反馈提交 ----------
+  var fbSend = $('fbSend');
+  if (fbSend) {
+    fbSend.addEventListener('click', function () {
+      var text = ($('fbText').value || '').trim();
+      var msg = $('fbMsg');
+      if (!text) { msg.className = 'fb-msg err'; msg.textContent = '\u5199\u70b9\u4e1c\u897f\u518d\u53d1\u5662'; return; }
+      fbSend.disabled = true;
+      msg.className = 'fb-msg';
+      msg.textContent = '\u53d1\u9001\u4e2d\u2026';
+      fetch(RELAY + '/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: text,
+          contact: ($('fbContact').value || '').trim(),
+          kind: $('fbKind').value,
+          ver: ($('sVer').textContent || '')
+        })
+      }).then(function (r) { return r.json(); })
+        .then(function (d) {
+          fbSend.disabled = false;
+          if (d && d.ok) {
+            msg.className = 'fb-msg ok';
+            msg.textContent = '\u6536\u5230\u4e86\uff0c\u8c22\u8c22\uff01';
+            $('fbText').value = '';
+            $('fbContact').value = '';
+          } else {
+            msg.className = 'fb-msg err';
+            msg.textContent = (d && d.error) || '\u53d1\u9001\u5931\u8d25\uff0c\u7a0d\u540e\u518d\u8bd5';
+          }
+        })
+        .catch(function () {
+          fbSend.disabled = false;
+          msg.className = 'fb-msg err';
+          msg.textContent = '\u672c\u673a\u4e0d\u5728\u7ebf\uff0c\u53cd\u9988\u6682\u65f6\u53d1\u4e0d\u51fa\u53bb';
+        });
+    });
+  }
 
   probe();
   setInterval(probe, 60000);   // 每分钟复查
