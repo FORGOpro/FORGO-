@@ -302,6 +302,18 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   border:1px solid var(--line);border-radius:18px;padding:24px}
 .fbp-label{display:block;font-size:12px;color:var(--dim2);margin:0 0 7px 2px}
 .fbp-label:not(:first-child){margin-top:16px}
+.fbp-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.chip{
+  padding:9px 16px;border-radius:10px;border:1px solid var(--line);
+  background:rgba(255,255,255,.03);color:var(--dim);font-size:13px;
+  font-family:inherit;cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.chip:hover{background:rgba(255,255,255,.06);color:var(--txt);border-color:rgba(255,255,255,.16)}
+.chip.on{
+  background:rgba(108,124,245,.16);color:#CBD2FF;
+  border-color:rgba(108,124,245,.5);
+  box-shadow:0 0 0 3px rgba(108,124,245,.08);
+}
 .fbp-card select,.fbp-card input,.fbp-card textarea{
   width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line);
   background:rgba(255,255,255,.03);color:var(--txt);font-size:13.5px;
@@ -476,12 +488,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
     </div>
     <div class="fbp-card">
       <label class="fbp-label">类型</label>
-      <select id="fbKind">
-        <option value="问题">遇到问题</option>
-        <option value="功能建议">功能建议</option>
-        <option value="界面">界面 / 体验</option>
-        <option value="其他">其他</option>
-      </select>
+      <div class="fbp-chips" id="fbKind">
+        <button type="button" class="chip on" data-val="问题">遇到问题</button>
+        <button type="button" class="chip" data-val="功能建议">功能建议</button>
+        <button type="button" class="chip" data-val="界面">界面 / 体验</button>
+        <button type="button" class="chip" data-val="其他">其他</button>
+      </div>
 
       <label class="fbp-label">内容</label>
       <textarea id="fbText" placeholder="写下你想说的…" maxlength="1000"></textarea>
@@ -501,7 +513,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
     <span>
       <a href="https://github.com/FORGOpro/FORGO-" target="_blank" rel="noopener">GitHub</a>
       &nbsp;·&nbsp;
-      <a href="notice.json" target="_blank">公告 JSON</a>
+      <a href="notice.html">更新公告</a>
       &nbsp;·&nbsp;
       <span id="footTime">—</span>
     </span>
@@ -580,6 +592,17 @@ function setState(online) {
   $('footTime').textContent = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 
 
+  // 类型选择（chip）
+  (function () {
+    var box = $('fbKind');
+    if (!box) return;
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.chip');
+      if (!b) return;
+      box.querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('on', x === b); });
+    });
+  })();
+
   // ---------- 反馈提交 ----------
   var fbSend = $('fbSend');
   if (fbSend) {
@@ -601,7 +624,7 @@ function setState(online) {
         body: JSON.stringify({
           text: text,
           contact: ($('fbContact').value || '').trim(),
-          kind: $('fbKind').value,
+          kind: (document.querySelector('#fbKind .chip.on') || {}).dataset ? document.querySelector('#fbKind .chip.on').dataset.val : '其他',
           ver: ($('sVer').textContent || '')
         })
       }).then(function (r) { return r.json(); })
