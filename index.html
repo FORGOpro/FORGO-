@@ -223,12 +223,29 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   .fb-card{padding:22px 20px}
   .pay{flex-direction:column;text-align:center;gap:14px}
 }
+
+/* 致谢 */
+.dl-note{text-align:center;font-size:12px;color:var(--dim2);margin-top:16px}
+.credit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:860px;margin:0 auto}
+.credit-card{display:flex;gap:15px;padding:22px 20px;border-radius:16px;background:var(--card);
+  border:1px solid var(--line);text-decoration:none;color:inherit;transition:.25s}
+.credit-card:hover{background:var(--card-hover);border-color:rgba(108,124,245,.32);transform:translateY(-3px)}
+.cr-ico{width:40px;height:40px;border-radius:11px;background:rgba(108,124,245,.13);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto}
+.cr-main h3{font-size:14.5px;font-weight:650;margin-bottom:2px}
+.cr-by{font-size:11.5px;color:#9EA8FF;margin-bottom:8px;font-family:ui-monospace,monospace}
+.cr-main p{font-size:12.5px;color:var(--dim);line-height:1.75}
+.credit-note{text-align:center;font-size:12px;color:var(--dim2);margin-top:18px}
+@media(max-width:760px){
+  .credit-grid{grid-template-columns:1fr}
+  .credit-card{padding:18px}
+}
 </style>
 </head>
 <body>
 
 <div class="maint" id="maint">
-  <b>服务维护中</b><span> · 下载与配置同步暂停，APP 本体与离线功能不受影响，稍后自动恢复</span>
+  <b>本机服务未开机</b><span> · 下载、安装、离线功能一切照常，不受影响</span>
 </div>
 
 <nav class="nav">
@@ -309,26 +326,17 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 <section class="sec" id="dl">
   <div class="wrap">
     <div class="sec-h">
-      <h2>选择下载线路</h2>
-      <p id="dlHint">连着家里的 WiFi 时，走局域网最快</p>
+      <h2>下载</h2>
+      <p>不依赖任何服务器，下面不在也能下</p>
     </div>
     <div class="dl">
-      <a class="dl-row" id="l1" href="http://akun.gorsu.ch/download/apk">
-        <span class="n">1</span>
-        <span class="t"><b>公网中转</b><span id="l1s">在线时可用 · 由本机转发</span></span>
-        <span class="a" id="l1a">下载</span>
-      </a>
-      <a class="dl-row" id="l2" href="http://10.100.173.141:9000/download/apk">
-        <span class="n">2</span>
-        <span class="t"><b>局域网直连</b><span>同一 WiFi 下最快，几十秒下完</span></span>
-        <span class="a">下载</span>
-      </a>
       <a class="dl-row" href="https://github.com/FORGOpro/FORGO-/releases/latest">
-        <span class="n">3</span>
-        <span class="t"><b>GitHub Release</b><span>永久有效，不依赖任何服务器</span></span>
+        <span class="n">↓</span>
+        <span class="t"><b>GitHub Release</b><span>v1.6.3.6 · 102 MB · 永久有效</span></span>
         <span class="a">下载</span>
       </a>
     </div>
+    <p class="dl-note">安装前记得允许“未知来源应用”；旧版不用卸，直接覆盖安装</p>
   </div>
 </section>
 
@@ -349,6 +357,36 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
         <li>Pro 模式六个开关真正生效（碎碎念 / 贴边 / 音效 / 振动 / 保活 / 大小）</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<section class="sec" id="credit">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2>致谢</h2>
+      <p>Pro 模式桌宠不是我从零写的</p>
+    </div>
+    <div class="credit-grid">
+      <a class="credit-card" href="https://github.com/Tony-Chen-Stark/dsh-pet-android" target="_blank" rel="noopener">
+        <div class="cr-ico">📦</div>
+        <div class="cr-main">
+          <h3>dsh-pet-android</h3>
+          <div class="cr-by">Tony-Chen-Stark</div>
+          <p>桌宠的安卓实现：悬浮窗、拖拽甩抛、贴边賜藏、动画链调度。<br>Pro 模式直接搬的它的实现。</p>
+        </div>
+      </a>
+      <a class="credit-card" href="https://github.com/PC2005-cloud/dsh-pet" target="_blank" rel="noopener">
+        <div class="cr-ico">🐟</div>
+        <div class="cr-main">
+          <h3>dsh-pet</h3>
+          <div class="cr-by">PC2005-cloud</div>
+          <p>原始桌宠插件（106 组透明动画、台词、动画表）。<br>动画素材与设定都来自它。</p>
+        </div>
+      </a>
+    </div>
+    <p class="credit-note">
+      两个项目都是 MIT 开源。桌宠能在手机上跑起来，多亏他们。
+    </p>
   </div>
 </section>
 
@@ -421,40 +459,27 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
   function $(id) { return document.getElementById(id); }
 
-  function setState(online) {
+function setState(online) {
     var pill = $('statePill'), txt = $('stateTxt');
     var maint = $('maint');
     var sRelay = $('sRelay'), sLine = $('sLine');
-    var l1 = $('l1'), l1s = $('l1s'), l1a = $('l1a');
 
     if (online) {
       pill.className = 'pill on';
-      txt.textContent = '服务在线';
+      txt.textContent = '\u670d\u52a1\u5728\u7ebf';
       maint.classList.remove('show');
-      sRelay.textContent = '正常';
+      sRelay.textContent = '\u6b63\u5e38';
       sRelay.className = 'v ok';
-      sLine.textContent = '全部可用';
-      l1.href = RELAY + '/download/apk';
-      l1s.textContent = '在线 · 由本机转发，速度取决于网络';
-      l1a.textContent = '下载';
+      sLine.textContent = 'GitHub \u53ef\u7528';
     } else {
       pill.className = 'pill off';
-      txt.textContent = '维护中';
+      txt.textContent = '\u672c\u673a\u672a\u5f00\u673a';
       maint.classList.add('show');
-      sRelay.textContent = '维护中';
+      sRelay.textContent = '\u672c\u673a\u79bb\u7ebf';
       sRelay.className = 'v off';
-      sLine.textContent = 'GitHub 可用';
-      l1.href = GH;
-      l1s.textContent = '本机未运行 · 已自动切换到 GitHub';
-      l1a.textContent = '改走 GitHub';
+      sLine.textContent = 'GitHub \u53ef\u7528';
     }
-    // 主下载按钮：在线走本机，离线走 GitHub
-    var main = $('dlMain');
-    if (online) {
-      main.href = GH;   // 主按钮始终给永久链接，保证一定下得到
-    } else {
-      main.href = GH;
-    }
+    // \u4e0b\u8f7d\u59cb\u7ec8\u8d70 GitHub\uff0c\u4e0d\u53d7\u672c\u673a\u5728\u4e0d\u5728\u7ebf\u5f71\u54cd
   }
 
   // 本机只有 HTTP，HTTPS 页面直接探会被混合内容拦掉。
