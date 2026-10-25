@@ -180,7 +180,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* 反馈与打赏 */
-.fb-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;max-width:900px;margin:0 auto}
+.fb-grid{display:grid;grid-template-columns:1fr;gap:16px;max-width:600px;margin:0 auto}
 .fb-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 24px}
 .fb-card h3{font-size:17px;font-weight:650;margin-bottom:7px}
 .fb-card .hint{font-size:13px;color:var(--dim2);margin-bottom:18px;line-height:1.65}
@@ -205,24 +205,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 .fb-msg{font-size:12.5px;min-height:18px;color:var(--dim)}
 .fb-msg.ok{color:var(--ok)}
 .fb-msg.err{color:#FF8A8A}
-.pay{display:flex;align-items:center;gap:18px;margin-bottom:16px}
-.pay-qr{
-  width:126px;height:126px;border-radius:22px;flex:0 0 auto;
-  background:#fff;padding:0;overflow:hidden;
-  box-shadow:0 8px 26px -8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.1);
-  transition:transform .25s, box-shadow .25s;
-}
-.pay-qr:hover{transform:scale(1.04);box-shadow:0 12px 34px -8px rgba(0,0,0,.65), 0 0 0 1px rgba(108,124,245,.3)}
-.pay-qr img{width:100%;height:100%;display:block;object-fit:contain}
-.pay-lines{font-size:13px;color:var(--dim);line-height:2}
-.pay-lines b{color:var(--txt);font-weight:600}
-.pay-lines .dim{font-size:12px;color:var(--dim2)}
-.pay-note{font-size:11.5px;color:var(--dim2);line-height:1.75;padding-top:14px;border-top:1px solid var(--line)}
 @media(max-width:760px){
   .fb-grid{grid-template-columns:1fr}
   .fb-card{padding:22px 20px}
-  .pay{flex-direction:column;text-align:center;gap:14px}
-}
+  }
 
 /* 致谢 */
 .dl-note{text-align:center;font-size:12px;color:var(--dim2);margin-top:16px}
@@ -360,9 +346,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   <div class="wrap">
     <p class="credit-line">
       注：本项目 Pro 桌宠功能使用
-      <a href="https://github.com/Tony-Chen-Stark/dsh-pet-android" target="_blank" rel="noopener">dsh-pet-android</a>
+      <a href="https://github.com/Tony-Chen-Stark/dsh-pet-android" target="_blank" rel="noopener">Tony-Chen-Stark（dsh-pet-android）</a>
       和
-      <a href="https://github.com/PC2005-cloud/dsh-pet" target="_blank" rel="noopener">dsh-pet</a>
+      <a href="https://github.com/PC2005-cloud/dsh-pet" target="_blank" rel="noopener">PC2005-cloud（dsh-pet）</a>
       的开源项目制作，特此感谢
     </p>
   </div>
@@ -371,8 +357,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 <section class="sec" id="fb">
   <div class="wrap">
     <div class="sec-h">
-      <h2>反馈与支持</h2>
-      <p>说点什么，或者请我喝口水</p>
+      <h2>反馈</h2>
+      <p>遇到问题、有想法，都可以写在这里</p>
     </div>
 
     <div class="fb-grid">
@@ -395,23 +381,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
         </div>
       </div>
 
-      <div class="fb-card">
-        <h3>☕ 请我喝口水</h3>
-        <p class="hint">做这个没赚过钱，纯靠兴趣。想支持的话扫下面，多少都行。</p>
-        <div class="pay">
-          <div class="pay-qr" id="payQr">
-            <img src="assets/pay.png" alt="微信赞赏码" loading="lazy">
-          </div>
-          <div class="pay-lines">
-            <div><b>微信</b> 扫码赞赏</div>
-            <div class="dim">随手支持一下就行</div>
-          </div>
-        </div>
-        <div class="pay-note">
-          微信扫一扫就行。不提供额外功能，也不影响使用——用得开心就好。
-        </div>
       </div>
-    </div>
   </div>
 </section>
 
@@ -434,6 +404,19 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   var RELAY = 'http://akun.gorsu.ch';
   var LAN = 'http://10.100.173.141:9000';
   var GH = 'https://github.com/FORGOpro/FORGO-/releases/download/v1.6.3.6/aku-1.6.3.6.apk';
+
+  // 设备 ID：同一台设备永远是同一个值，后台按它统计设备数
+  var DEVICE_ID = (function () {
+    try {
+      var k = 'aku.site.device';
+      var v = localStorage.getItem(k);
+      if (!v) {
+        v = 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem(k, v);
+      }
+      return v;
+    } catch (e) { return ''; }
+  })();
 
   function $(id) { return document.getElementById(id); }
 
@@ -499,7 +482,12 @@ function setState(online) {
       msg.textContent = '\u53d1\u9001\u4e2d\u2026';
       fetch(RELAY + '/api/feedback', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-device-id': DEVICE_ID,
+          'x-device-model': (/Android/i.test(navigator.userAgent) ? 'Android' : 'Web'),
+          'x-app-version': ($('sVer').textContent || '')
+        },
         body: JSON.stringify({
           text: text,
           contact: ($('fbContact').value || '').trim(),
