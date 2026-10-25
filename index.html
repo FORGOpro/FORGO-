@@ -364,22 +364,20 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
     }
   }
 
+  // 本机只有 HTTP，HTTPS 页面直接探会被混合内容拦掉。
+  // 改成读 status.json：本机在线时每分钟刷新一次时间戳，
+  // 超过 3 分钟没更新 = 本机已经关了 → 自动出维护通告。
+  var STALE_MS = 3 * 60 * 1000;
+
   function probe() {
-    var done = false;
-    var t = setTimeout(function () { if (!done) { done = true; setState(false); } }, 4500);
-    fetch(RELAY + '/health', { cache: 'no-store', mode: 'cors' })
-      .then(function (r) { return r.ok ? r.json().catch(function () { return {}; }) : null; })
+    fetch('status.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (done) return;
-        done = true; clearTimeout(t);
-        setState(!!d);
+        var fresh = !!(d && d.at && (Date.now() - Number(d.at) < STALE_MS));
+        setState(fresh);
         if (d && d.latest) $('sVer').textContent = d.latest;
       })
-      .catch(function () {
-        if (done) return;
-        done = true; clearTimeout(t);
-        setState(false);
-      });
+      .catch(function () { setState(false); });
   }
 
   // 版本号从公告取（避免手写过期）
