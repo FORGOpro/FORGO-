@@ -230,39 +230,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 .credit-line a:hover{color:#C3CAFF;border-bottom-color:rgba(195,202,255,.7)}
 
 /* 意见收集箱 */
-.fb-entry{
-  display:flex;align-items:center;gap:15px;max-width:520px;margin:0 auto;
-  padding:18px 22px;border-radius:16px;background:var(--card);border:1px solid var(--line);
-  text-decoration:none;color:inherit;transition:.24s;
-}
-.fb-entry:hover{background:var(--card-hover);border-color:rgba(108,124,245,.32);transform:translateY(-2px)}
-.fbe-ico{width:42px;height:42px;border-radius:12px;background:rgba(108,124,245,.13);
-  border:1px solid rgba(108,124,245,.2);display:flex;align-items:center;justify-content:center;
-  font-size:19px;flex:0 0 auto}
-.fbe-main{flex:1;min-width:0}
 .fbe-main b{display:block;font-size:14.5px;font-weight:650;margin-bottom:3px}
 .fbe-main span{font-size:12.5px;color:var(--dim2)}
-.fbe-arr{font-size:19px;color:var(--dim2);flex:0 0 auto}
 
-.fb-page{
-  position:fixed;inset:0;z-index:200;background:var(--bg);
-  display:none;flex-direction:column;overflow-y:auto;
-}
-.fb-page.on{display:flex}
-.fbp-nav{
-  position:sticky;top:0;background:rgba(8,9,13,.92);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--line);padding:16px 20px;display:flex;
-  align-items:center;gap:14px;flex-wrap:wrap;
-}
-.fbp-back{
-  width:36px;height:36px;border-radius:11px;border:1px solid var(--line);
-  background:var(--card);color:var(--txt);font-size:17px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-family:inherit;transition:.2s;flex:0 0 auto;
-}
-.fbp-back:hover{background:var(--card-hover)}
-.fbp-title{font-size:16px;font-weight:650}
-.fbp-sub{font-size:12px;color:var(--dim2);margin-left:auto}
-.fbp-body{padding:24px 20px 60px;flex:1}
 .fbp-card{max-width:520px;margin:0 auto;background:var(--card);
   border:1px solid var(--line);border-radius:18px;padding:24px}
 .fbp-label{display:block;font-size:12px;color:var(--dim2);margin:0 0 7px 2px}
@@ -288,9 +258,6 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 .fbp-msg.ok{color:var(--ok)}
 .fbp-msg.err{color:#FF8A8A}
 @media(max-width:760px){
-  .fbp-sub{display:none}
-  .fbp-nav{padding:13px 16px}
-  .fbp-body{padding:18px 16px 50px}
   .fbp-card{padding:20px 18px}
 }
 </style>
@@ -431,27 +398,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
   <div class="wrap">
     <div class="sec-h">
       <h2>意见收集箱</h2>
-      <p>问题反馈与功能建议</p>
+      <p>问题反馈与功能建议，填写后将直接送达开发者</p>
     </div>
-    <a class="fb-entry" href="javascript:void(0)" id="fbEntry">
-      <div class="fbe-ico">✉️</div>
-      <div class="fbe-main">
-        <b>提交反馈</b>
-        <span>填写后将直接送达开发者</span>
-      </div>
-      <span class="fbe-arr">›</span>
-    </a>
-  </div>
-</section>
-
-<!-- 意见收集箱（二级页面） -->
-<div class="fb-page" id="fbBox">
-  <div class="fbp-nav">
-    <button class="fbp-back" id="fbBack" aria-label="返回">←</button>
-    <div class="fbp-title">意见收集箱</div>
-    <div class="fbp-sub">内容将直接送达开发者</div>
-  </div>
-  <div class="fbp-body">
     <div class="fbp-card">
       <label class="fbp-label">类型</label>
       <select id="fbKind">
@@ -471,7 +419,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
       <div class="fbp-msg" id="fbMsg"></div>
     </div>
   </div>
-</div>
+</section>
 
 <footer>
   <div class="wrap f-in">
@@ -558,30 +506,6 @@ function setState(online) {
   $('footTime').textContent = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 
 
-  // ---------- 意见收集箱（二级页面） ----------
-  var fbEntry = $('fbEntry'), fbBox = $('fbBox'), fbBack = $('fbBack');
-  if (fbEntry && fbBox) {
-    fbEntry.addEventListener('click', function () {
-      fbBox.classList.add('on');
-      document.body.style.overflow = 'hidden';
-      try { history.replaceState(null, '', '#fb-box'); } catch (e) {}
-    });
-  }
-  if (fbBack && fbBox) {
-    fbBack.addEventListener('click', function () {
-      fbBox.classList.remove('on');
-      document.body.style.overflow = '';
-      try { history.replaceState(null, '', '#fb'); } catch (e) {}
-    });
-  }
-  // 入口带 #fb-box 时直接展开
-  try {
-    if (location.hash === '#fb-box' && fbBox) {
-      fbBox.classList.add('on');
-      document.body.style.overflow = 'hidden';
-    }
-  } catch (e) {}
-
   // ---------- 反馈提交 ----------
   var fbSend = $('fbSend');
   if (fbSend) {
@@ -614,9 +538,7 @@ function setState(online) {
             msg.textContent = '\u6536\u5230\u4e86\uff0c\u8c22\u8c22\uff01';
             $('fbText').value = '';
             $('fbContact').value = '';
-            setTimeout(function () {
-              if (fbBox) { fbBox.classList.remove('on'); document.body.style.overflow = ''; }
-            }, 1400);
+
           } else {
             msg.className = 'fb-msg err';
             msg.textContent = (d && d.error) || '\u53d1\u9001\u5931\u8d25\uff0c\u7a0d\u540e\u518d\u8bd5';
