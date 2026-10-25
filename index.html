@@ -368,7 +368,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
 <header class="hero">
   <div class="wrap">
-    <div class="tag"><i class="led"></i><span id="heroVer">v1.6.4.8</span> · 已发布</div>
+    <div class="tag"><i class="led"></i><span id="heroVer">v1.6.4.9</span> · 已发布</div>
     <h1>课表、录音、桌宠<br>一个就够了</h1>
     <p class="sub">面向移动端的轻量课表助手，集成课表管理、录音转写、全局桌宠与本地 AI 能力。支持免账号使用，登录后可跨设备同步。</p>
     <div class="cta">
@@ -440,7 +440,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
     <div class="dl">
       <a class="dl-row" id="dlRow" href="https://github.com/FORGOpro/FORGO-/releases/latest">
         <span class="n">↓</span>
-        <span class="t"><b>GitHub Release</b><span><span id="dlVer">v1.6.4.8</span> · <span id="dlSize">111 MB</span> · 长期可用</span></span>
+        <span class="t"><b>GitHub Release</b><span><span id="dlVer">v1.6.4.9</span> · <span id="dlSize">111 MB</span> · 长期可用</span></span>
         <span class="a">下载</span>
       </a>
     </div>
@@ -455,7 +455,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
       <p>最近版本的变更记录</p>
     </div>
     <div class="log">
-      <h4><span class="ver" id="logVer">1.6.4.8</span>最新</h4>
+      <h4><span class="ver" id="logVer">1.6.4.9</span>最新</h4>
       <ul id="logList">
         <li>修复一个导致整页按钮失效的错误（分享码、版本日志、检查更新等全部恢复）</li>
         <li>下载器重写：原生分片并发 + 断点续传，内存占用从 136MB 降到 64KB</li>
@@ -509,7 +509,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px}
 
 <footer>
   <div class="wrap f-in">
-    <span>aKun Lite · <span id="footVer">v1.6.4.8</span> · 个人使用</span>
+    <span>aKun Lite · <span id="footVer">v1.6.4.9</span> · 个人使用</span>
     <span>
       <a href="https://github.com/FORGOpro/FORGO-" target="_blank" rel="noopener">GitHub</a>
       &nbsp;·&nbsp;
@@ -567,7 +567,13 @@ function setState(online) {
       sRelay.className = 'v off';
       sLine.textContent = 'GitHub \u53ef\u7528';
     }
-    // \u4e0b\u8f7d\u59cb\u7ec8\u8d70 GitHub\uff0c\u4e0d\u53d7\u672c\u673a\u5728\u4e0d\u5728\u7ebf\u5f71\u54cd
+    // \u5728\u7ebf\u8d70\u96a7\u9053\uff08\u56fd\u5185\u5feb\uff09\uff0c\u79bb\u7ebf\u65f6\u624d\u56de\u9000 GitHub
+    try {
+      var mainBtn = document.getElementById('dlMain');
+      var dlRow = document.getElementById('dlRow');
+      if (mainBtn) mainBtn.href = online ? (RELAY + '/dl') : GH;
+      if (dlRow) dlRow.href = online ? (RELAY + '/dl') : 'https://github.com/FORGOpro/FORGO-/releases/latest';
+    } catch (e) {}
   }
 
   // 本机只有 HTTP，HTTPS 页面直接探会被混合内容拦掉。
